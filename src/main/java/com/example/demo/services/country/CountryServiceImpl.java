@@ -1,14 +1,12 @@
 package com.example.demo.services.country;
 
-import com.example.demo.api.country.dtos.CountriesResponse;
-import com.example.demo.api.country.dtos.CountryLanguagesResponse;
-import com.example.demo.api.country.dtos.CountryResponse;
-import com.example.demo.api.country.dtos.GdpDatasResponse;
+import com.example.demo.api.country.dtos.*;
 import com.example.demo.api.error.CountryError;
 import com.example.demo.api.error.NotFoundException;
 import com.example.demo.datasource.entities.CountryEntity;
 import com.example.demo.datasource.repositories.CountryRepository;
 import com.example.demo.mappers.CountryMapper;
+import com.example.demo.services.country.dtos.CountryMaxGdpDataProjection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,13 +32,15 @@ public class CountryServiceImpl implements CountryService{
     @Override
     public CountryLanguagesResponse getCountryLanguages(Integer countryId) {
         CountryEntity country = getCountryById(countryId);
-
-        return null;
+        List<String> languages = countryRepository.getCountryLanguages(countryId);
+        return new CountryLanguagesResponse(languages, country.getName());
     }
 
     @Override
     public GdpDatasResponse getGdpData() {
-        return null;
+        List<CountryMaxGdpDataProjection> gdpDataProjections = countryRepository.findCountriesWithMaxGdpPerPopulation();
+        List<GdpDataResponse> gdpDataResponses = gdpDataProjections.stream().map(countryMapper::toGdpDataResponse).toList();
+        return new GdpDatasResponse(gdpDataResponses);
     }
 
     private CountryEntity getCountryById(Integer countryId){
