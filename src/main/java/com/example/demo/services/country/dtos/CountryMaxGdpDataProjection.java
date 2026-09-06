@@ -3,11 +3,11 @@ package com.example.demo.services.country.dtos;
 import java.math.BigDecimal;
 
 public record CountryMaxGdpDataProjection(
-        Integer id,
-        String name,
-        String country_code3,
+        Integer countryId,
+        String countryName,
+        String countryCode3,
         Integer year,
-        Long population,
+        Integer population,
         BigDecimal gdp
 ) {
 }

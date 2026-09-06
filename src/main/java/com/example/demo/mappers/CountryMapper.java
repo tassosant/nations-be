@@ -20,9 +20,9 @@ public class CountryMapper {
 
     public GdpDataResponse toGdpDataResponse(CountryMaxGdpDataProjection projection){
         return GdpDataResponse.builder()
-                .countryId(projection.id())
-                .name(projection.name())
-                .countryCode3(projection.country_code3())
+                .countryId(projection.countryId())
+                .name(projection.countryName())
+                .countryCode3(projection.countryCode3())
                 .year(projection.year())
                 .population(projection.population().toString())
                 .gdp(projection.gdp().toString())

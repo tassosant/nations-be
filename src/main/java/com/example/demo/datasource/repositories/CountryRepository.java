@@ -21,6 +21,7 @@ public interface CountryRepository extends JpaRepository<CountryEntity, Integer>
             SELECT
                 ranked.country_id AS countryId,
                 c.name AS countryName,
+                c.country_code3 AS countryCode3,
                 ranked.year AS year,
                 ranked.population AS population,
                 ranked.gdp AS gdp
@@ -68,7 +69,7 @@ public interface CountryRepository extends JpaRepository<CountryEntity, Integer>
                 cs.population AS population,
                 cs.gdp AS gdp
             FROM countries c, country_stats cs, regions r, continents con
-            WHERE c.country_id=cs.country_id AND c.region_id=r.region_id AND r.continent_id=con.continent_id AND cs.country_id=c.country_id AND r.region_id IN (:regionIds) AND cs.year BETWEEN :yearFrom AND :yearTO 
+            WHERE c.country_id=cs.country_id AND c.region_id=r.region_id AND r.continent_id=con.continent_id AND cs.country_id=c.country_id AND r.region_id IN (:regionIds) AND cs.year BETWEEN :yearFrom AND :yearTo 
             """, nativeQuery = true)
     List<StatisticsProjection> findStatistics(List<Integer> regionIds, Integer yearFrom, Integer yearTo);
 
