@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -24,4 +26,7 @@ public class RegionEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "continent_id")
     private ContinentEntity continent;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "region")
+    private List<CountryEntity> countries;
 }

@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -15,6 +17,9 @@ public class LanguageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "language")
+    private List<CountryLanguageEntity> countryLanguages;
 
     @Column(length = 50)
     private String name;

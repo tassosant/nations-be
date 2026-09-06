@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -16,6 +18,9 @@ public class ContinentEntity {
     @Column(name = "continent_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "continent")
+    private List<RegionEntity> regions;
 
     private String name;
 }

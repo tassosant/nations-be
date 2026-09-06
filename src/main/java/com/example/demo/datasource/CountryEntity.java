@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,6 +23,12 @@ public class CountryEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private RegionEntity region;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "country")
+    private List<CountryLanguageEntity> languages;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "country")
+    private List<CountryStatisticsEntity> statistics;
 
     @Column(length = 50)
     private String name;
