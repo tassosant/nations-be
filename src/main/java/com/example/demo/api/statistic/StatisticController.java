@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -19,8 +20,10 @@ public class StatisticController {
 
     @PostMapping
     public ResponseEntity<PageResponse<StatisticResponse>> getStatistics(
-            @RequestBody StatisticsRequest request
+            @RequestBody StatisticsRequest request,
+            @RequestParam int page,
+            @RequestParam int size
     ) {
-        return ResponseEntity.ok(statisticApi.getStatistics(request));
+        return ResponseEntity.ok(statisticApi.getStatistics(request, page, size));
     }
 }

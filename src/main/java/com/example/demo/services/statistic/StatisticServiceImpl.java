@@ -31,9 +31,9 @@ public class StatisticServiceImpl implements StatisticService {
     private final CrossLayersMapper crossLayersMapper;
 
     @Override
-    public PageResponse<StatisticResponse> getStatistics(StatisticsRequest request) {
-        validateRequest(request);
-        Page<StatisticsProjection> statisticsProjections = findStatistics(request, PageRequest.of(request.page()-1, request.size()));
+    public PageResponse<StatisticResponse> getStatistics(StatisticsRequest request, int page, int size) {
+        validateRequest(request, page, size);
+        Page<StatisticsProjection> statisticsProjections = findStatistics(request, PageRequest.of(page, size));
         return crossLayersMapper.toPageResponse(statisticsProjections, statisticsMapper::toStatisticResponse);
     }
 
@@ -55,8 +55,8 @@ public class StatisticServiceImpl implements StatisticService {
         return countryRepository.findStatistics(regionIds, request.yearFrom(), request.yearTo(), pageable);
     }
 
-    private void validateRequest(StatisticsRequest request) {
-        validatePagination(request.page(), request.size());
+    private void validateRequest(StatisticsRequest request, int page, int size) {
+        validatePagination(page, size);
         if (request.yearFrom() == null && request.yearTo() == null) {
             return;
         }
@@ -72,7 +72,7 @@ public class StatisticServiceImpl implements StatisticService {
     }
 
     private void validatePagination(int page, int size) {
-        if (page-1 < 0 || size <= 0) {
+        if (page < 0 || size <= 0) {
             throw new InvalidRequestException(StatisticsError.INVALID_PAGE_PARAMS);
         }
     }

@@ -73,19 +73,19 @@ public final class HelperTestData {
         int nextYear = Year.now().getValue() + 1;
         return Stream.of(
                 Arguments.of(
-                        new StatisticsRequest(List.of(1), 2000, null, 0, 10),
+                        new StatisticsRequest(List.of(1), 2000, null),
                         StatisticsError.INVALID_FILTERS
                 ),
                 Arguments.of(
-                        new StatisticsRequest(List.of(1), null, 2000, 0, 10),
+                        new StatisticsRequest(List.of(1), null, 2000),
                         StatisticsError.INVALID_FILTERS
                 ),
                 Arguments.of(
-                        new StatisticsRequest(List.of(1), 2005, 2000, 0, 10),
+                        new StatisticsRequest(List.of(1), 2005, 2000),
                         StatisticsError.INVALID_YEAR_RANGE
                 ),
                 Arguments.of(
-                        new StatisticsRequest(List.of(1), 2000, nextYear, 0, 10),
+                        new StatisticsRequest(List.of(1), 2000, nextYear),
                         StatisticsError.INVALID_YEAR
                 )
         );
@@ -94,11 +94,15 @@ public final class HelperTestData {
     public static Stream<Arguments> invalidPaginationRequests() {
         return Stream.of(
                 Arguments.of(
-                        new StatisticsRequest(List.of(1), null, null, -1, 10),
+                        new StatisticsRequest(List.of(1), null, null),
+                        -1,
+                        10,
                         StatisticsError.INVALID_PAGE_PARAMS
                 ),
                 Arguments.of(
-                        new StatisticsRequest(List.of(1), null, null, 0, 0),
+                        new StatisticsRequest(List.of(1), null, null),
+                        0,
+                        0,
                         StatisticsError.INVALID_PAGE_PARAMS
                 )
         );

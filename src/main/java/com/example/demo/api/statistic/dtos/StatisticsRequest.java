@@ -5,8 +5,6 @@ import java.util.List;
 public record StatisticsRequest(
         List<Integer> regionIds,
         Integer yearFrom,
-        Integer yearTo,
-        int page,
-        int size
+        Integer yearTo
 ) {
 }

@@ -66,7 +66,9 @@ class StatisticServiceImplTest {
         when(countryRepository.findStatistics(List.of(1, 2), pageRequest)).thenReturn(statisticsPage);
 
         PageResponse<StatisticResponse> response = statisticService.getStatistics(
-                new StatisticsRequest(List.of(), null, null, 0, 10)
+                new StatisticsRequest(List.of(), null, null),
+                0,
+                10
         );
 
         assertEquals(List.of(statisticResponse), response.content());
@@ -83,13 +85,13 @@ class StatisticServiceImplTest {
     void getStatisticsWithRegionAndYearFiltersUsesFilteredStatisticsWithoutLoadingAllRegions() {
         StatisticsProjection projection = statisticsProjection();
         StatisticResponse statisticResponse = expectedStatisticResponse();
-        StatisticsRequest request = new StatisticsRequest(List.of(7, 9), 2000, 2005, 1, 5);
+        StatisticsRequest request = new StatisticsRequest(List.of(7, 9), 2000, 2005);
         PageRequest pageRequest = PageRequest.of(1, 5);
         Page<StatisticsProjection> statisticsPage = HelperTestData.statisticsPage(projection, pageRequest, 11);
 
         when(countryRepository.findStatistics(List.of(7, 9), 2000, 2005, pageRequest)).thenReturn(statisticsPage);
 
-        PageResponse<StatisticResponse> response = statisticService.getStatistics(request);
+        PageResponse<StatisticResponse> response = statisticService.getStatistics(request, 1, 5);
 
         assertEquals(List.of(statisticResponse), response.content());
         assertEquals(1, response.page());
@@ -107,7 +109,7 @@ class StatisticServiceImplTest {
             StatisticsRequest request,
             StatisticsError expectedError
     ) {
-        InvalidRequestException exception = assertInvalidRequest(request);
+        InvalidRequestException exception = assertInvalidRequest(request, 0, 10);
 
         assertEquals(expectedError.code(), exception.code());
         assertEquals(expectedError.message(), exception.message());
@@ -117,18 +119,20 @@ class StatisticServiceImplTest {
     @MethodSource("com.example.demo.HelperTestData#invalidPaginationRequests")
     void getStatisticsThrowsInvalidRequestForInvalidPagination(
             StatisticsRequest request,
+            int page,
+            int size,
             StatisticsError expectedError
     ) {
-        InvalidRequestException exception = assertInvalidRequest(request);
+        InvalidRequestException exception = assertInvalidRequest(request, page, size);
 
         assertEquals(expectedError.code(), exception.code());
         assertEquals(expectedError.message(), exception.message());
     }
 
-    private InvalidRequestException assertInvalidRequest(StatisticsRequest request) {
+    private InvalidRequestException assertInvalidRequest(StatisticsRequest request, int page, int size) {
         InvalidRequestException exception = assertThrows(
                 InvalidRequestException.class,
-                () -> statisticService.getStatistics(request)
+                () -> statisticService.getStatistics(request, page, size)
         );
         verifyNoInteractions(countryRepository, regionRepository);
         return exception;
