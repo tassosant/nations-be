@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 public record CountryResponse(
         Integer id,
         String name,
-        BigDecimal area,
+        String area,
         String countryCode2
 ) {
 }

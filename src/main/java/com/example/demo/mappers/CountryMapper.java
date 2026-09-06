@@ -13,7 +13,7 @@ public class CountryMapper {
         return CountryResponse.builder()
                 .id(country.getId())
                 .name(country.getName())
-                .area(country.getArea())
+                .area(country.getArea().toPlainString())
                 .countryCode2(country.getCountryCode2())
                 .build();
     }
@@ -25,7 +25,7 @@ public class CountryMapper {
                 .countryCode3(projection.countryCode3())
                 .year(projection.year())
                 .population(projection.population().toString())
-                .gdp(projection.gdp().toString())
+                .gdp(projection.gdp().toPlainString())
                 .build();
     }
 }
