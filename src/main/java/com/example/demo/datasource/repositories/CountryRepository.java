@@ -2,6 +2,7 @@ package com.example.demo.datasource.repositories;
 
 import com.example.demo.datasource.entities.CountryEntity;
 import com.example.demo.services.country.dtos.CountryMaxGdpDataProjection;
+import com.example.demo.services.statistic.dtos.StatisticsProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -42,4 +43,34 @@ public interface CountryRepository extends JpaRepository<CountryEntity, Integer>
             """,
             nativeQuery = true)
     List<CountryMaxGdpDataProjection> findCountriesWithMaxGdpPerPopulation();
+
+    @Query(value = """
+            SELECT 
+                c.country_id AS countryId,
+                con.name AS continentName,
+                r.name AS regionName,
+                c.name AS countryName,
+                cs.year AS year,
+                cs.population AS population,
+                cs.gdp AS gdp
+            FROM countries c, country_stats cs, regions r, continents con
+            WHERE c.country_id=cs.country_id AND c.region_id=r.region_id AND r.continent_id=con.continent_id AND cs.country_id=c.country_id AND r.region_id IN (:regionIds)
+            """, nativeQuery = true)
+    List<StatisticsProjection> findStatistics(List<Integer> regionIds);
+
+    @Query(value = """
+            SELECT 
+                c.country_id AS countryId,
+                con.name AS continentName,
+                r.name AS regionName,
+                c.name AS countryName,
+                cs.year AS year,
+                cs.population AS population,
+                cs.gdp AS gdp
+            FROM countries c, country_stats cs, regions r, continents con
+            WHERE c.country_id=cs.country_id AND c.region_id=r.region_id AND r.continent_id=con.continent_id AND cs.country_id=c.country_id AND r.region_id IN (:regionIds) AND cs.year BETWEEN :yearFrom AND :yearTO 
+            """, nativeQuery = true)
+    List<StatisticsProjection> findStatistics(List<Integer> regionIds, Integer yearFrom, Integer yearTo);
+
+
 }
