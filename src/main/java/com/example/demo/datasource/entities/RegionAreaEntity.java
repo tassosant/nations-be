@@ -1,4 +1,4 @@
-package com.example.demo.datasource;
+package com.example.demo.datasource.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

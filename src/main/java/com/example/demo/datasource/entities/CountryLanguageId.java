@@ -1,4 +1,4 @@
-package com.example.demo.datasource;
+package com.example.demo.datasource.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -7,28 +7,29 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class CountryStatisticsId implements Serializable {
+public class CountryLanguageId implements Serializable {
 
     @Column(name = "country_id", nullable = false)
     private Integer countryId;
 
-    @Column(name = "year", nullable = false)
-    private Integer year;
+    @Column(name = "language_id", nullable = false)
+    private Integer languageId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof CountryStatisticsId that)) {
+        if (!(o instanceof CountryLanguageId that)) {
             return false;
         }
         return Objects.equals(countryId, that.countryId)
-                && Objects.equals(year, that.year);
+                && Objects.equals(languageId, that.languageId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(countryId, year);
+        return Objects.hash(countryId, languageId);
     }
+
 }
