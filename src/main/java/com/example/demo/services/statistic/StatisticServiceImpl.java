@@ -5,7 +5,6 @@ import com.example.demo.api.error.InvalidRequestException;
 import com.example.demo.api.error.StatisticsError;
 import com.example.demo.api.statistic.dtos.StatisticResponse;
 import com.example.demo.api.statistic.dtos.StatisticsRequest;
-import com.example.demo.api.statistic.dtos.StatisticsResponse;
 import com.example.demo.datasource.entities.RegionEntity;
 import com.example.demo.datasource.repositories.CountryRepository;
 import com.example.demo.datasource.repositories.RegionRepository;
@@ -34,7 +33,7 @@ public class StatisticServiceImpl implements StatisticService {
     @Override
     public PageResponse<StatisticResponse> getStatistics(StatisticsRequest request) {
         validateRequest(request);
-        Page<StatisticsProjection> statisticsProjections = findStatistics(request, PageRequest.of(request.page(), request.size()));
+        Page<StatisticsProjection> statisticsProjections = findStatistics(request, PageRequest.of(request.page()-1, request.size()));
         return crossLayersMapper.toPageResponse(statisticsProjections, statisticsMapper::toStatisticResponse);
     }
 
@@ -73,7 +72,7 @@ public class StatisticServiceImpl implements StatisticService {
     }
 
     private void validatePagination(int page, int size) {
-        if (page < 0 || size <= 0) {
+        if (page-1 < 0 || size <= 0) {
             throw new InvalidRequestException(StatisticsError.INVALID_PAGE_PARAMS);
         }
     }
