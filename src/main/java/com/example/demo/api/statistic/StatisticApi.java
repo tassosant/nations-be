@@ -1,8 +1,9 @@
 package com.example.demo.api.statistic;
 
+import com.example.demo.api.common.dtos.PageResponse;
+import com.example.demo.api.statistic.dtos.StatisticResponse;
 import com.example.demo.api.statistic.dtos.StatisticsRequest;
-import com.example.demo.api.statistic.dtos.StatisticsResponse;
 
 public interface StatisticApi {
-    StatisticsResponse getStatistics(StatisticsRequest request);
+    PageResponse<StatisticResponse> getStatistics(StatisticsRequest request);
 }

@@ -3,6 +3,8 @@ package com.example.demo.datasource.repositories;
 import com.example.demo.datasource.entities.CountryEntity;
 import com.example.demo.services.country.dtos.CountryMaxGdpDataProjection;
 import com.example.demo.services.statistic.dtos.StatisticsProjection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -56,8 +58,9 @@ public interface CountryRepository extends JpaRepository<CountryEntity, Integer>
                 cs.gdp AS gdp
             FROM countries c, country_stats cs, regions r, continents con
             WHERE c.country_id=cs.country_id AND c.region_id=r.region_id AND r.continent_id=con.continent_id AND cs.country_id=c.country_id AND r.region_id IN (:regionIds)
+            ORDER BY c.country_id, cs.year
             """, nativeQuery = true)
-    List<StatisticsProjection> findStatistics(List<Integer> regionIds);
+    Page<StatisticsProjection> findStatistics(List<Integer> regionIds, Pageable pageable);
 
     @Query(value = """
             SELECT 
@@ -69,9 +72,10 @@ public interface CountryRepository extends JpaRepository<CountryEntity, Integer>
                 cs.population AS population,
                 cs.gdp AS gdp
             FROM countries c, country_stats cs, regions r, continents con
-            WHERE c.country_id=cs.country_id AND c.region_id=r.region_id AND r.continent_id=con.continent_id AND cs.country_id=c.country_id AND r.region_id IN (:regionIds) AND cs.year BETWEEN :yearFrom AND :yearTo 
+            WHERE c.country_id=cs.country_id AND c.region_id=r.region_id AND r.continent_id=con.continent_id AND cs.country_id=c.country_id AND r.region_id IN (:regionIds) AND cs.year BETWEEN :yearFrom AND :yearTo
+            ORDER BY c.country_id, cs.year
             """, nativeQuery = true)
-    List<StatisticsProjection> findStatistics(List<Integer> regionIds, Integer yearFrom, Integer yearTo);
+    Page<StatisticsProjection> findStatistics(List<Integer> regionIds, Integer yearFrom, Integer yearTo, Pageable pageable);
 
 
 }
