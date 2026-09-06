@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class CountryStatisticsId implements Serializable {
 
     @Column(name = "country_id")
-    private Long countryId;
+    private Integer countryId;
 
     @Column(name = "year")
     private Integer year;

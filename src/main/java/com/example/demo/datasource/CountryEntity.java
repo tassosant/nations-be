@@ -20,15 +20,20 @@ public class CountryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //TODO:foreign key
-    private Long regionId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private RegionEntity region;
 
+    @Column(length = 50)
     private String name;
 
     @Column(precision = 10, scale = 2)
     private BigDecimal area;
 
     private LocalDate nationalDay;
+
+    @Column(length = 2)
     private String countryCode2;
+
+    @Column(length = 3)
     private String countryCode3;
 }

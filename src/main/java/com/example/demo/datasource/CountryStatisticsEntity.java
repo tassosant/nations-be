@@ -17,7 +17,9 @@ public class CountryStatisticsEntity {
     @EmbeddedId
     private CountryStatisticsId id;
 
-    //TODO:foreign key
+    @MapsId("countryId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id")
     private CountryEntity country;
 
     private Integer population;

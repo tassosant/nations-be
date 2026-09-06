@@ -15,10 +15,15 @@ public class CountryLanguageEntity {
     @EmbeddedId
     private CountryLanguageId id;
 
-    //TODO:foreign key
-    private Long countryId;
-    //TODO:foreign key
-    private Long languageId;
+    @MapsId("countryId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id")
+    private CountryEntity country;
+
+    @MapsId("languageId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "language_id")
+    private LanguageEntity language;
 
     @Column(name = "official")
     private boolean isOfficial;

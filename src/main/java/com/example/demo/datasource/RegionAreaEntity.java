@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 @Table(name = "region_areas")
 @RequiredArgsConstructor
 public class RegionAreaEntity {
+
     @Id
     @Column(name = "region_name", length = 100)
     private String name;

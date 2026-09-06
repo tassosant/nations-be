@@ -20,6 +20,8 @@ public class RegionEntity {
     @Column(length = 100)
     private String name;
 
-    //TODO:foreign key
+    @MapsId("continentId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "continent_id")
     private ContinentEntity continent;
 }

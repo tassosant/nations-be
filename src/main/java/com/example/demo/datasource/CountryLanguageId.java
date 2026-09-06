@@ -10,10 +10,10 @@ import java.util.Objects;
 public class CountryLanguageId implements Serializable {
 
     @Column(name = "country_id")
-    private Long countryId;
+    private Integer countryId;
 
     @Column(name = "language_id")
-    private Long languageId;
+    private Integer languageId;
 
     @Override
     public boolean equals(Object o) {
