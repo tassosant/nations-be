@@ -24,6 +24,6 @@ public class StatisticController {
             @RequestParam int page,
             @RequestParam int size
     ) {
-        return ResponseEntity.ok(statisticApi.getStatistics(request, page, size));
+        return ResponseEntity.ok(statisticApi.getStatistics(request, page - 1, size));
     }
 }
