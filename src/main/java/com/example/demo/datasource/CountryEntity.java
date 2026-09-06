@@ -18,7 +18,7 @@ public class CountryEntity {
     @Id
     @Column(name = "country_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private RegionEntity region;
