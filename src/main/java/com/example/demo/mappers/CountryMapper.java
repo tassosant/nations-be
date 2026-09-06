@@ -1,7 +1,9 @@
 package com.example.demo.mappers;
 
 import com.example.demo.api.country.dtos.CountryResponse;
+import com.example.demo.api.country.dtos.GdpDataResponse;
 import com.example.demo.datasource.entities.CountryEntity;
+import com.example.demo.services.country.dtos.CountryMaxGdpDataProjection;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,6 +15,17 @@ public class CountryMapper {
                 .name(country.getName())
                 .area(country.getArea())
                 .countryCode2(country.getCountryCode2())
+                .build();
+    }
+
+    public GdpDataResponse toGdpDataResponse(CountryMaxGdpDataProjection projection){
+        return GdpDataResponse.builder()
+                .countryId(projection.id())
+                .name(projection.name())
+                .countryCode3(projection.country_code3())
+                .year(projection.year())
+                .population(projection.population().toString())
+                .gdp(projection.gdp().toString())
                 .build();
     }
 }
