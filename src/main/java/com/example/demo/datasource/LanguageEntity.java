@@ -15,12 +15,13 @@ import java.util.List;
 public class LanguageEntity {
 
     @Id
+    @Column(name = "language_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "language")
     private List<CountryLanguageEntity> countryLanguages;
 
-    @Column(length = 50)
+    @Column(name = "language", length = 50, nullable = false)
     private String name;
 }

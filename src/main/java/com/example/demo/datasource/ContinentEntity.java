@@ -22,5 +22,6 @@ public class ContinentEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "continent")
     private List<RegionEntity> regions;
 
+    @Column(name = "name", nullable = false)
     private String name;
 }

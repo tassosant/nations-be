@@ -19,12 +19,11 @@ public class RegionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 100)
+    @Column(name = "name", length = 100, nullable = false)
     private String name;
 
-    @MapsId("continentId")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "continent_id")
+    @JoinColumn(name = "continent_id", nullable = false)
     private ContinentEntity continent;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "region")

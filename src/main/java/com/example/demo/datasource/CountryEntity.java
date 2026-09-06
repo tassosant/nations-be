@@ -22,6 +22,7 @@ public class CountryEntity {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id", nullable = false)
     private RegionEntity region;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "country")
@@ -30,17 +31,18 @@ public class CountryEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "country")
     private List<CountryStatisticsEntity> statistics;
 
-    @Column(length = 50)
+    @Column(name = "name", length = 50)
     private String name;
 
-    @Column(precision = 10, scale = 2)
+    @Column(name = "area", precision = 10, scale = 2, nullable = false)
     private BigDecimal area;
 
+    @Column(name = "national_day")
     private LocalDate nationalDay;
 
-    @Column(length = 2)
+    @Column(name = "country_code2", length = 2, nullable = false, unique = true)
     private String countryCode2;
 
-    @Column(length = 3)
+    @Column(name = "country_code3", length = 3, nullable = false, unique = true)
     private String countryCode3;
 }

@@ -17,15 +17,15 @@ public class CountryLanguageEntity {
 
     @MapsId("countryId")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "country_id")
+    @JoinColumn(name = "country_id", nullable = false)
     private CountryEntity country;
 
     @MapsId("languageId")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "language_id")
+    @JoinColumn(name = "language_id", nullable = false)
     private LanguageEntity language;
 
-    @Column(name = "official")
+    @Column(name = "official", nullable = false)
     private boolean isOfficial;
 
 

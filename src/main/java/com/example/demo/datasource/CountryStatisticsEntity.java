@@ -19,12 +19,13 @@ public class CountryStatisticsEntity {
 
     @MapsId("countryId")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "country_id")
+    @JoinColumn(name = "country_id", nullable = false)
     private CountryEntity country;
 
+    @Column(name = "population")
     private Integer population;
 
-    @Column(precision = 15)
+    @Column(name = "gdp", precision = 15)
     private BigDecimal gdp;
 
 }

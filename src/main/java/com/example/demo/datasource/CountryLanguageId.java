@@ -9,10 +9,10 @@ import java.util.Objects;
 @Embeddable
 public class CountryLanguageId implements Serializable {
 
-    @Column(name = "country_id")
+    @Column(name = "country_id", nullable = false)
     private Integer countryId;
 
-    @Column(name = "language_id")
+    @Column(name = "language_id", nullable = false)
     private Integer languageId;
 
     @Override

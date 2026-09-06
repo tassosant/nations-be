@@ -18,9 +18,9 @@ import java.math.BigDecimal;
 public class RegionAreaEntity {
 
     @Id
-    @Column(name = "region_name", length = 100)
+    @Column(name = "region_name", length = 100, nullable = false)
     private String name;
 
-    @Column(name = "region_area", precision = 15, scale = 2)
+    @Column(name = "region_area", precision = 15, scale = 2, nullable = false)
     private BigDecimal area;
 }
