@@ -11,7 +11,7 @@ import com.example.demo.datasource.entities.CountryEntity;
 import com.example.demo.datasource.repositories.CountryRepository;
 import com.example.demo.mappers.CountryMapper;
 import com.example.demo.services.country.dtos.CountryMaxGdpDataProjection;
-import com.example.demo.services.statistic.HelperTestData;
+import com.example.demo.HelperTestData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,8 +47,8 @@ class CountryServiceImplTest {
     void getAllCountriesReturnsCountriesMappedFromRepositoryResults() {
         CountryEntity greece = HelperTestData.greece();
         CountryEntity italy = HelperTestData.italy();
-        CountryResponse greeceResponse = new CountryResponse(1, "Greece", new BigDecimal("131957.00"), "GR");
-        CountryResponse italyResponse = new CountryResponse(2, "Italy", new BigDecimal("301340.00"), "IT");
+        CountryResponse greeceResponse = new CountryResponse(1, "Greece", "101590.00", "GR");
+        CountryResponse italyResponse = new CountryResponse(2, "Italy", "301340.00", "IT");
 
         when(countryRepository.findAllByOrderByAreaDesc()).thenReturn(List.of(italy, greece));
 

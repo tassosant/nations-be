@@ -1,5 +1,6 @@
-package com.example.demo.services.statistic;
+package com.example.demo;
 
+import com.example.demo.api.error.StatisticsError;
 import com.example.demo.api.statistic.dtos.StatisticResponse;
 import com.example.demo.api.statistic.dtos.StatisticsRequest;
 import com.example.demo.datasource.entities.CountryEntity;
@@ -29,11 +30,11 @@ public final class HelperTestData {
     }
 
     public static CountryEntity greece() {
-        return country(1, "Greece", "GRC", "GRC", "101590");
+        return country(1, "Greece", "GR", "GRC", "101590.00");
     }
 
     public static CountryEntity italy() {
-        return country(2, "Italy", "ITA", "ITA", "301340");
+        return country(2, "Italy", "IT", "ITA", "301340.00");
     }
 
     public static Page<StatisticsProjection> statisticsPage(
@@ -73,23 +74,19 @@ public final class HelperTestData {
         return Stream.of(
                 Arguments.of(
                         new StatisticsRequest(List.of(1), 2000, null, 0, 10),
-                        200,
-                        "Year from or year to should not be null"
+                        StatisticsError.INVALID_FILTERS
                 ),
                 Arguments.of(
                         new StatisticsRequest(List.of(1), null, 2000, 0, 10),
-                        200,
-                        "Year from or year to should not be null"
+                        StatisticsError.INVALID_FILTERS
                 ),
                 Arguments.of(
                         new StatisticsRequest(List.of(1), 2005, 2000, 0, 10),
-                        202,
-                        "Year from should be less than year to"
+                        StatisticsError.INVALID_YEAR_RANGE
                 ),
                 Arguments.of(
                         new StatisticsRequest(List.of(1), 2000, nextYear, 0, 10),
-                        201,
-                        "Year should be in the past"
+                        StatisticsError.INVALID_YEAR
                 )
         );
     }
@@ -98,13 +95,11 @@ public final class HelperTestData {
         return Stream.of(
                 Arguments.of(
                         new StatisticsRequest(List.of(1), null, null, -1, 10),
-                        203,
-                        "Page number should be zero or positive and size should be positive"
+                        StatisticsError.INVALID_PAGE_PARAMS
                 ),
                 Arguments.of(
                         new StatisticsRequest(List.of(1), null, null, 0, 0),
-                        203,
-                        "Page number should be zero or positive and size should be positive"
+                        StatisticsError.INVALID_PAGE_PARAMS
                 )
         );
     }

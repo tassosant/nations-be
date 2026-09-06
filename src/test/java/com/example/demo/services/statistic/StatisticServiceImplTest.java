@@ -2,12 +2,14 @@ package com.example.demo.services.statistic;
 
 import com.example.demo.api.common.dtos.PageResponse;
 import com.example.demo.api.error.InvalidRequestException;
+import com.example.demo.api.error.StatisticsError;
 import com.example.demo.api.statistic.dtos.StatisticResponse;
 import com.example.demo.api.statistic.dtos.StatisticsRequest;
 import com.example.demo.datasource.repositories.CountryRepository;
 import com.example.demo.datasource.repositories.RegionRepository;
 import com.example.demo.mappers.CrossLayersMapper;
 import com.example.demo.mappers.StatisticsMapper;
+import com.example.demo.HelperTestData;
 import com.example.demo.services.statistic.dtos.StatisticsProjection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,10 +23,10 @@ import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
-import static com.example.demo.services.statistic.HelperTestData.expectedStatisticResponse;
-import static com.example.demo.services.statistic.HelperTestData.southernEurope;
-import static com.example.demo.services.statistic.HelperTestData.statisticsProjection;
-import static com.example.demo.services.statistic.HelperTestData.westernEurope;
+import static com.example.demo.HelperTestData.expectedStatisticResponse;
+import static com.example.demo.HelperTestData.southernEurope;
+import static com.example.demo.HelperTestData.statisticsProjection;
+import static com.example.demo.HelperTestData.westernEurope;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.never;
@@ -100,29 +102,27 @@ class StatisticServiceImplTest {
     }
 
     @ParameterizedTest
-    @MethodSource("com.example.demo.services.statistic.HelperTestData#invalidYearFilterRequests")
+    @MethodSource("com.example.demo.HelperTestData#invalidYearFilterRequests")
     void getStatisticsThrowsInvalidRequestForInvalidYearFilters(
             StatisticsRequest request,
-            int expectedCode,
-            String expectedMessage
+            StatisticsError expectedError
     ) {
         InvalidRequestException exception = assertInvalidRequest(request);
 
-        assertEquals(expectedCode, exception.code());
-        assertEquals(expectedMessage, exception.message());
+        assertEquals(expectedError.code(), exception.code());
+        assertEquals(expectedError.message(), exception.message());
     }
 
     @ParameterizedTest
-    @MethodSource("com.example.demo.services.statistic.HelperTestData#invalidPaginationRequests")
+    @MethodSource("com.example.demo.HelperTestData#invalidPaginationRequests")
     void getStatisticsThrowsInvalidRequestForInvalidPagination(
             StatisticsRequest request,
-            int expectedCode,
-            String expectedMessage
+            StatisticsError expectedError
     ) {
         InvalidRequestException exception = assertInvalidRequest(request);
 
-        assertEquals(expectedCode, exception.code());
-        assertEquals(expectedMessage, exception.message());
+        assertEquals(expectedError.code(), exception.code());
+        assertEquals(expectedError.message(), exception.message());
     }
 
     private InvalidRequestException assertInvalidRequest(StatisticsRequest request) {

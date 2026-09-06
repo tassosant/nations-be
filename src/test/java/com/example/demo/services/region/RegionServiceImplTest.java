@@ -5,7 +5,8 @@ import com.example.demo.api.region.dtos.RegionsResponse;
 import com.example.demo.datasource.entities.RegionEntity;
 import com.example.demo.datasource.repositories.RegionRepository;
 import com.example.demo.mappers.RegionMapper;
-import com.example.demo.services.statistic.HelperTestData;
+import com.example.demo.HelperTestData;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,11 +25,13 @@ class RegionServiceImplTest {
     @Mock
     private RegionRepository regionRepository;
 
-    @Mock
-    private RegionMapper regionMapper;
-
     @InjectMocks
     private RegionServiceImpl regionService;
+
+    @BeforeEach
+    void setUp() {
+        regionService = new RegionServiceImpl(regionRepository, new RegionMapper());
+    }
 
     @Test
     void getAllRegionsReturnsMappedRepositoryResults() {
@@ -38,14 +41,10 @@ class RegionServiceImplTest {
         RegionResponse westernEuropeResponse = new RegionResponse(2, "Western Europe");
 
         when(regionRepository.findAll()).thenReturn(List.of(southernEurope, westernEurope));
-        when(regionMapper.toRegionResponse(southernEurope)).thenReturn(southernEuropeResponse);
-        when(regionMapper.toRegionResponse(westernEurope)).thenReturn(westernEuropeResponse);
 
         RegionsResponse response = regionService.getAllRegions();
 
         assertEquals(List.of(southernEuropeResponse, westernEuropeResponse), response.regions());
         verify(regionRepository).findAll();
-        verify(regionMapper).toRegionResponse(southernEurope);
-        verify(regionMapper).toRegionResponse(westernEurope);
     }
 }
